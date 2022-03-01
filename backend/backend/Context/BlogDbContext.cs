@@ -33,6 +33,8 @@ namespace backend.Context
             var postCategoria = moldelBuilder.Entity<PostCategoria>();
             postCategoria.ToTable("tb_post_categoria");
             postCategoria.HasKey(src => new { src.PostId, src.CategoriaId });
+            postCategoria.Property(x => x.CategoriaId).HasColumnName("categoria_id");
+            postCategoria.Property(x => x.PostId).HasColumnName("post_id");
 
             postCategoria.HasOne<Post>(src => src.Post)
                 .WithMany(x => x.Categorias)
