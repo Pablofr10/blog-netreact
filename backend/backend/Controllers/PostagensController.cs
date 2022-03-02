@@ -37,14 +37,11 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(PostagemRequest request)
+        public async Task<IActionResult> PostPostagem(PostagemRequest request)
         {
-            Post postagem = new Post
-            {
-                Titulo = request.Titulo,
-                Conteudo = request.Conteudo,
-                Categorias = CriaCategorias(request.Categorias)
-            };   
+            var postagem = Post.PostToModel(request);
+
+            postagem.Categorias = CriaCategorias(request.Categorias);
 
             _repository.Add(postagem);
 
@@ -56,6 +53,7 @@ namespace backend.Controllers
         private List<PostCategoria> CriaCategorias(List<int> idsCategorias)
         {
             var categorias = new List<PostCategoria>();
+
             foreach (int categoriaId in idsCategorias)
             {
                 categorias.Add(new PostCategoria { CategoriaId = categoriaId });

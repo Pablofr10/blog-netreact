@@ -13,6 +13,7 @@ namespace backend.Models.Dtos.Request
         [MinLength(15, ErrorMessage = "Obrigatório informar pelo menos 15 caracteres")]
         public string Conteudo { get; set; }
         public bool Ativa { get; set; }
+        [Required, MinLength(1, ErrorMessage = "Informe pelo menos uma categória")]
         public List<int> Categorias { get; set; }
     }
 }

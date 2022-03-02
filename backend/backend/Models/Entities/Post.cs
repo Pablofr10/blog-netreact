@@ -1,4 +1,6 @@
-﻿namespace backend.Models.Entities
+﻿using backend.Models.Dtos.Request;
+
+namespace backend.Models.Entities
 {
     public class Post
     {
@@ -8,5 +10,14 @@
         public bool Ativa { get; set; }
         public IList<PostCategoria> Categorias { get; set; }
 
+        public static Post PostToModel(PostagemRequest model)
+        {
+            return new Post
+            {
+                Conteudo = model.Conteudo,
+                Titulo = model.Titulo,
+                Ativa = model.Ativa
+            };
+        }
     }
 }
