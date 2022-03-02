@@ -14,6 +14,10 @@ namespace backend.Repositories
         {
             _context.Add(entity);
         }
+        public void AddRange<T>(T entity)
+        {
+            _context.AddRange(entity);
+        }
 
         public void Delete<T>(T entity)
         {

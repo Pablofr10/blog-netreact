@@ -15,6 +15,7 @@ builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("App"));
 });
 
+builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
 
 var app = builder.Build();

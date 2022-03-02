@@ -1,10 +1,11 @@
-﻿using backend.Models;
+﻿using backend.Models.Dtos.Response;
+
 
 namespace backend.Repositories
 {
-    public interface IPostagemRepository
+    public interface IPostagemRepository : IBaseRepository
     {
-        Task<IEnumerable<Post>> GetPostagens();
-        Task<Post> GetPostagemById(int id);
+        Task<IEnumerable<PostagemResponse>> GetPostagens();
+        Task<PostagemResponse> GetPostagemById(int id);
     }
 }

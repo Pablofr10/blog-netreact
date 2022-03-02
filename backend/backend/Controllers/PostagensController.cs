@@ -1,4 +1,6 @@
-﻿using backend.Repositories;
+﻿using backend.Models.Dtos.Request;
+using backend.Models.Entities;
+using backend.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -35,5 +37,30 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Post(PostagemRequest request)
+        {
+            Post postagem = new Post
+            {
+                Titulo = request.Titulo,
+                Conteudo = request.Conteudo,
+                Categorias = CriaCategorias(request.Categorias)
+            };   
+
+            _repository.Add(postagem);
+
+            return await _repository.SaveChangesAsync()
+                ? Ok("Postagem criada!")
+                : BadRequest("Erro ao criar postagem");
+        }
+
+        private List<PostCategoria> CriaCategorias(List<int> idsCategorias)
+        {
+            var categorias = new List<PostCategoria>();
+            foreach (int categoriaId in idsCategorias)
+            {
+                categorias.Add(new PostCategoria { CategoriaId = categoriaId });
+            }
+            return categorias;
+        }
     }
 }
