@@ -1,4 +1,5 @@
 using backend.Context;
+using backend.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BlogDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("App"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("App"));
 });
+
+builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
 
 var app = builder.Build();
 

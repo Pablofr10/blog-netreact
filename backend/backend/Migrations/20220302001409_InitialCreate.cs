@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -12,9 +13,9 @@ namespace backend.Migrations
                 name: "tb_categoria",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    nome = table.Column<string>(type: "TEXT", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    nome = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,11 +26,11 @@ namespace backend.Migrations
                 name: "tb_post",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    titulo = table.Column<string>(type: "TEXT", nullable: false),
-                    conteudo = table.Column<string>(type: "TEXT", nullable: false),
-                    ativa = table.Column<bool>(type: "INTEGER", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    titulo = table.Column<string>(type: "text", nullable: false),
+                    conteudo = table.Column<string>(type: "text", nullable: false),
+                    ativa = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,8 +41,8 @@ namespace backend.Migrations
                 name: "tb_post_categoria",
                 columns: table => new
                 {
-                    post_id = table.Column<int>(type: "INTEGER", nullable: false),
-                    categoria_id = table.Column<int>(type: "INTEGER", nullable: false)
+                    post_id = table.Column<int>(type: "integer", nullable: false),
+                    categoria_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
