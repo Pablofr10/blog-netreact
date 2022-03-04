@@ -8,14 +8,15 @@ namespace backend.Models.Dtos.Response
         public string Titulo { get; set; }
         public string Conteudo { get; set; }
         public bool Ativa { get; set; }
-        public List<string> Categorias { get; set; }
+        public List<CategoriaResponse> Categorias { get; set; }
 
         public static PostagemResponse ToViewModel(Post model)
         {
 
             var categorias = model.Categorias != null ?
-                    model.Categorias.Select(x => x.Categoria.Nome).ToList()
-                    : new List<string>();
+                    model.Categorias.Select(x => 
+                    new CategoriaResponse { Nome = x.Categoria.Nome,Id = x.Categoria.Id }).ToList()
+                    : new List<CategoriaResponse>();
 
             return new PostagemResponse
             {

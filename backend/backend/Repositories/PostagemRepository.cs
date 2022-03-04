@@ -23,8 +23,12 @@ namespace backend.Repositories
         public async Task<PostagemResponse> GetPostagemById(int id)
         {
             return await _context.Posts
+                .Include(x => x.Categorias)
+                .ThenInclude(c => c.Categoria)
+                .Where(x => x.Id == id)
                 .Select(post => PostagemResponse.ToViewModel(post))
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
     }
 }

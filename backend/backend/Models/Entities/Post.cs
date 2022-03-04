@@ -12,11 +12,19 @@ namespace backend.Models.Entities
 
         public static Post PostToModel(PostagemRequest model)
         {
+            var listaCategorias = new List<PostCategoria>();
+
+            foreach (var categoria in model.Categorias)
+            {
+                listaCategorias.Add(new PostCategoria { CategoriaId = categoria });
+            }
+
             return new Post
             {
                 Conteudo = model.Conteudo,
                 Titulo = model.Titulo,
-                Ativa = model.Ativa
+                Ativa = model.Ativa,
+                Categorias = listaCategorias
             };
         }
     }

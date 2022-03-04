@@ -14,9 +14,10 @@ namespace backend.Repositories
         {
             _context.Add(entity);
         }
-        public void AddRange<T>(T entity)
+
+        public virtual void AddRange<T>(IEnumerable<T> entities)
         {
-            _context.AddRange(entity);
+            _context.AddRange(entities);
         }
 
         public void Delete<T>(T entity)
@@ -29,11 +30,14 @@ namespace backend.Repositories
             _context.Update(entity);
         }
 
+        public void DeleteRange<T>(T entity)
+        {
+            _context.RemoveRange(entity);
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
-        }
-
-        
+        }        
     }
 }

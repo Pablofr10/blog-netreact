@@ -50,6 +50,37 @@ namespace backend.Controllers
                 : BadRequest("Erro ao criar postagem");
         }
 
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> PutPostagem(int id, PostagemRequest request)
+        {
+            var postagem = await _repository.GetPostagemById(id);
+
+            if (postagem == null) return NotFound("Postagem não encontrada");
+
+            List<int> idsCategoriabanco = postagem.Categorias.Select(c => c.Id).ToList();
+
+            //var categoriasDeletar = idsCategoriabanco.Where(
+            //                            c => !request.Categorias.Contains(c)).ToList();
+
+            //var categoriasAdicionar = request.Categorias.Where(
+            //                            c => !idsCategoriabanco.Contains(c)).ToList();
+
+            //foreach (var categoria in categoriasAdicionar)
+            //    _repository.Add(CriaPostCategoria(id, categoria));
+
+            foreach (var categoria in idsCategoriabanco)
+                _repository.Delete(CriaPostCategoria(id, categoria));
+
+            var postagemAdicionar = Post.PostToModel(request);
+            postagemAdicionar.Id = id;
+
+            _repository.Update(postagemAdicionar);
+
+            return await _repository.SaveChangesAsync()
+                ? Ok("Postagem Atualizada!")
+                : BadRequest("Erro ao atualizar postagem");
+        }
+
         private List<PostCategoria> CriaCategorias(List<int> idsCategorias)
         {
             var categorias = new List<PostCategoria>();
@@ -59,6 +90,11 @@ namespace backend.Controllers
                 categorias.Add(new PostCategoria { CategoriaId = categoriaId });
             }
             return categorias;
+        }
+
+        private PostCategoria CriaPostCategoria(int idPostagem, int idCategoria)
+        {
+            return new PostCategoria { CategoriaId = idCategoria, PostId = idPostagem };
         }
     }
 }
