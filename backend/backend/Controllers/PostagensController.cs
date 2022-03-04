@@ -59,15 +59,6 @@ namespace backend.Controllers
 
             List<int> idsCategoriabanco = postagem.Categorias.Select(c => c.Id).ToList();
 
-            //var categoriasDeletar = idsCategoriabanco.Where(
-            //                            c => !request.Categorias.Contains(c)).ToList();
-
-            //var categoriasAdicionar = request.Categorias.Where(
-            //                            c => !idsCategoriabanco.Contains(c)).ToList();
-
-            //foreach (var categoria in categoriasAdicionar)
-            //    _repository.Add(CriaPostCategoria(id, categoria));
-
             foreach (var categoria in idsCategoriabanco)
                 _repository.Delete(CriaPostCategoria(id, categoria));
 
@@ -79,6 +70,28 @@ namespace backend.Controllers
             return await _repository.SaveChangesAsync()
                 ? Ok("Postagem Atualizada!")
                 : BadRequest("Erro ao atualizar postagem");
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DesativaPostagem(int id)
+        {
+            var postagem = await _repository.GetPostagemById(id);
+
+            if (postagem == null) return NotFound("Postagem não encontrada");
+
+            var postagemDesativar = new Post()
+            {
+                Id = id,
+                Conteudo = postagem.Conteudo,
+                Titulo = postagem.Titulo,
+                Ativa = false
+            };
+
+            _repository.Update(postagemDesativar);
+
+            return await _repository.SaveChangesAsync()
+                ? Ok("Postagem Desativada!")
+                : BadRequest("Erro ao desativar postagem");
         }
 
         private List<PostCategoria> CriaCategorias(List<int> idsCategorias)
